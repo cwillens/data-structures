@@ -5,7 +5,6 @@ var LinkedList = function() {
   list.storage = {};
 
   list.addToTail = function(value) {
-    debugger;
     if (list.head === null) {
       list.head = Node(value);
       list.tail = Node(value);
@@ -24,9 +23,28 @@ var LinkedList = function() {
   };
 
   list.removeHead = function() {
+    var temp = list.storage.value;
+    list.storage = list.storage.next;
+    list.head = list.storage;
+    return temp;
   };
 
   list.contains = function(target) {
+    var doesContain = function(node) {
+      if (node.next === null) {
+        return node.value !== target ? false : true;
+      } else {
+        if (node.value === target) {
+          return true;
+        } else {
+          return doesContain(node.next);
+        }
+      }
+    };
+
+    return doesContain(list.storage);
+
+
   };
 
   return list;
