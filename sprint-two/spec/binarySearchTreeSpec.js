@@ -12,7 +12,6 @@ describe('binarySearchTree', function() {
   });
 
   it('should insert values at the correct location in the tree', function() {
-    debugger;
     binarySearchTree.insert(2);
     binarySearchTree.insert(3);
     binarySearchTree.insert(7);
@@ -21,6 +20,14 @@ describe('binarySearchTree', function() {
     expect(binarySearchTree.right.left.value).to.equal(6);
   });
 
+  it('should not insert duplicate objects', function() {
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(2);
+    expect(binarySearchTree.left.left).to.equal(undefined);
+    expect(binarySearchTree.right).to.equal(undefined);
+    expect(binarySearchTree.left.right).to.equal(undefined);
+    expect(binarySearchTree.left.value).to.equal(2);
+  });
   it('should have a working "contains" method', function() {
     binarySearchTree.insert(2);
     binarySearchTree.insert(3);
