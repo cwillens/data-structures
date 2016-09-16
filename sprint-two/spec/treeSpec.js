@@ -55,4 +55,16 @@ describe('tree', function() {
     expect(tree.children[0].children[0].parent).to.eql(tree.children[0]);
   });
 
+  it('should be able to remove child from parent', function() {
+    tree.addChild(4);
+    tree.children[0].addChild(3);
+    tree.children[0].removeFromParent();
+    expect(tree.children).to.eql([]);
+  });
+  it('should remove child\'s parent attribute', function() {
+    tree.addChild(4);
+    tree.children[0].addChild(3);
+    var detached = tree.children[0].removeFromParent();
+    expect(detached.parent).to.eql(null);
+  });
 });
