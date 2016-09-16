@@ -24,4 +24,9 @@ describe('set', function() {
     expect(set.contains('Mel Gibson')).to.equal(false);
   });
 
+  it('should not contain a value that we have not added', function() {
+    set.add('Charlotte');
+    set.add('Guy');
+    expect(set.contains('Lord Voldemort')).to.equal(false);
+  });
 });
