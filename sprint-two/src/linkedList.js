@@ -6,19 +6,13 @@ var LinkedList = function() {
 
   list.addToTail = function(value) {
     if (list.head === null) {
-      list.head = Node(value);
-      list.tail = Node(value);
       list.storage = Node(value);
+      list.head = list.storage;
+      list.tail = list.storage;
     } else {
-      var help = function(node) {
-        if (node.next === null) {
-          node.next = Node(value);
-          list.tail = node.next;
-        } else {
-          help(node.next);
-        }
-      };
-      help(list.storage);
+      var newNode = Node(value);
+      list.tail.next = newNode;
+      list.tail = newNode;
     }
   };
 
