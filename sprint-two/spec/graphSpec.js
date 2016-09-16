@@ -54,6 +54,29 @@ describe('graph', function() {
     expect(graph.hasEdge(4, 5)).to.equal(false);
   });
 
+  it('should not add multiple edges between two nodes', function() {
+    graph.addNode(3);
+    graph.addNode(2);
+    graph.addEdge(2, 3);
+    graph.addEdge(2, 3);
+    expect(graph.storage[2].edges).to.eql(['3']);
+    expect(graph.storage[3].edges).to.eql(['2']);
+  });
+
+  it('should do nothing when attempting to remove an edge that doesn\'t exist', function() {
+    graph.addNode(3);
+    graph.addNode(2);
+    graph.addNode(5);
+    graph.addNode(6);
+    graph.addEdge(3, 5);
+    graph.addEdge(3, 6);
+    graph.addEdge(2, 5);
+    graph.addEdge(2, 6);
+    graph.removeEdge(2, 3);
+    expect(graph.storage[2].edges).to.eql(['5', '6']);
+    expect(graph.storage[3].edges).to.eql(['5', '6']);
+  });
+
   it('should execute a callback on each node in the graph', function() {
     var connectToFive = function(item) {
       graph.addEdge(item, 5);

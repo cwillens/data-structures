@@ -38,14 +38,18 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
 
 // Connects two nodes in a graph by adding an edge between them.
 Graph.prototype.addEdge = function(fromNode, toNode) {
-  this.storage[fromNode].edges.push(toNode.toString());
-  this.storage[toNode].edges.push(fromNode.toString());
+  if (this.storage[fromNode].edges.indexOf(toNode.toString()) < 0) {
+    this.storage[fromNode].edges.push(toNode.toString());
+    this.storage[toNode].edges.push(fromNode.toString());
+  }
 };
 
 // Remove an edge between any two specified (by value) nodes.
 Graph.prototype.removeEdge = function(fromNode, toNode) {
-  this.storage[fromNode].edges.splice(this.storage[fromNode].edges.indexOf(toNode.toString()), 1);
-  this.storage[toNode].edges.splice(this.storage[toNode].edges.indexOf(fromNode.toString()), 1);
+  if (this.storage[fromNode].edges.indexOf(toNode.toString()) >= 0) {
+    this.storage[fromNode].edges.splice(this.storage[fromNode].edges.indexOf(toNode.toString()), 1);
+    this.storage[toNode].edges.splice(this.storage[toNode].edges.indexOf(fromNode.toString()), 1);
+  }
 };
 
 // Pass in a callback which will be executed on each node of the graph.
