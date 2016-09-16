@@ -47,6 +47,18 @@ describe('hashTable', function() {
     window.getIndexBelowMaxForKey = oldHashFunction;
   });
 
+  it('the hash function should be consistent', function() {
+    var index1 = getIndexBelowMaxForKey('Helga', 8);
+    var index2 = getIndexBelowMaxForKey('Helga', 8);
+    expect(index1).to.equal(index2);
+  });
+
+  it('should store all values as tuples', function() {
+    hashTable.insert('Lord', 'Voldemort');
+    var index = getIndexBelowMaxForKey('Lord', hashTable._limit);
+    expect(hashTable._storage.get(index)).to.eql([['Lord', 'Voldemort']]);
+  });
+
   // (Advanced! Remove the extra "x" when you want the following tests to run)
   xit ('should double in size when needed', function() {
     _.each(people, function(person) {
