@@ -5,10 +5,12 @@ describe('tree', function() {
     tree = Tree();
   });
   
-  it('should return true for a value that the tree contains', function() {
+  it('Expect children value to be an array', function() {
+    expect(tree.children).to.be.a('array');
+    tree.addChild(5);
     expect(tree.children).to.be.a('array');
   });
-  
+
   it('should have methods named "addChild" and "contains", and a property named "value"', function() {
     expect(tree.addChild).to.be.a('function');
     expect(tree.contains).to.be.a('function');
