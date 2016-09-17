@@ -1,6 +1,7 @@
-var BinarySearchTree = function(value) {
+var BinarySearchTree = function(value, runRebalance) {
   var tree = Object.create(BinarySearchTree.prototype);
   tree.value = value;
+  tree.runRebalance = runRebalance || false;
   return tree;
 };
 
@@ -8,15 +9,23 @@ var BinarySearchTree = function(value) {
 BinarySearchTree.prototype.insert = function(value) {
   if (this.value < value) {
     if (this.right === undefined) {
-      this.right = BinarySearchTree(value);
+      this.right = BinarySearchTree(value, this.runRebalance);
     } else {
       this.right.insert(value);
     }
   } else if (this.value > value) {
     if (this.left === undefined) {
-      this.left = BinarySearchTree(value);
+      this.left = BinarySearchTree(value, this.runRebalance);
     } else {
       this.left.insert(value);
+    }
+  }
+
+  //if we have one long branch and no branch on the other side, set min depth to 1
+  if (this.runRebalance) {
+    var min = this.depth().max === this.depth().min && (!(this.left) || !(this.right)) ? 1 : this.depth().min;
+    if (this.depth().max > 2 * min) {
+      this.rebalance();
     }
   }
 };
@@ -34,18 +43,18 @@ BinarySearchTree.prototype.depth = function (counter, depths) {
       depths.max = counter;
     } 
     if (depths.min) {
-      if (counter < depths.min) { depths.min = counter; }
+      if (counter < depths.min) { 
+        depths.min = counter; 
+      }
     } else {
       depths.min = counter;
     }
   } else {
     //In the case that more branches exist
     if (this.right) {
-      //counter++;
       this.right.depth(counter, depths);
     }
     if (this.left) {
-      //counter++;
       this.left.depth(counter, depths);
     }
   }
@@ -57,7 +66,6 @@ BinarySearchTree.prototype.rebalance = function() {
   this.depthFirstLog(function(item) {
     array.push(item);
   });
-  console.log(array);
   this.value = undefined;
   this.right = undefined;
   this.left = undefined;
@@ -73,13 +81,13 @@ BinarySearchTree.prototype.rebalance = function() {
 
     if (medianIndex < spliced.length - 1) {
       var rightSplice = spliced.slice(medianIndex + 1);
-      node.right = BinarySearchTree();
+      node.right = BinarySearchTree(undefined, this.runRebalance);
       rebuild(rightSplice, node.right);
     }
 
     if (medianIndex > 0) {
       var leftSplice = spliced.slice(0, medianIndex);
-      node.left = BinarySearchTree();
+      node.left = BinarySearchTree(undefined, this.runRebalance);
       rebuild(leftSplice, node.left);
     }
 
