@@ -33,7 +33,7 @@ HashTable.prototype.insert = function(k, v) {
     }
   }
 
-  if ((this._counter / this._limit) >= .75) {
+  if ((this._counter / this._limit) > .75) {
     this.resize(Math.floor(this._limit * 2));
   }
 
@@ -70,7 +70,7 @@ HashTable.prototype.remove = function(k) {
   this._storage.set(index, bucket);
   this._counter --;
 
-  if ((this._counter / this._limit) <= .25) {
+  if ((this._counter / this._limit) < .25) {
     this.resize(Math.ceil(this._limit / 2));
   }
 };
