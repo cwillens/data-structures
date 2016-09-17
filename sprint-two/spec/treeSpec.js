@@ -67,4 +67,21 @@ describe('tree', function() {
     var detached = tree.children[0].removeFromParent();
     expect(detached.parent).to.eql(null);
   });
+
+  it('should apply a callback to all items in the tree', function() {
+    tree.addChild(4);
+    tree.children[0].addChild(3);
+    tree.children[0].addChild(2);
+    tree.children[0].addChild(1);
+    tree.children[0].children[0].addChild(0);
+    tree.addChild(6);
+    tree.children[1].addChild(7);
+    
+    var result = [];
+    var callBack = function(node) {
+      result.push(node.value);
+    };
+    tree.traverse(callBack);
+    expect(result).to.eql([ undefined, 4, 3, 0, 2, 1, 6, 7 ]);
+  });
 });
