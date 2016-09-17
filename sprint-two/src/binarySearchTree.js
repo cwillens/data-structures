@@ -52,6 +52,46 @@ BinarySearchTree.prototype.depth = function (counter, depths) {
   return depths;
 };
 
+BinarySearchTree.prototype.rebalance = function() {
+  var array = [];
+  this.depthFirstLog(function(item) {
+    array.push(item);
+  });
+  console.log(array);
+  this.value = undefined;
+  this.right = undefined;
+  this.left = undefined;
+  array.sort(function(a, b) {
+    return a - b;
+  });
+
+  var rebuild = function(spliced, node) {
+    var medianIndex = Math.floor(spliced.length / 2);
+    var median = spliced[medianIndex];
+
+    node.value = median;
+
+    if (medianIndex < spliced.length - 1) {
+      var rightSplice = spliced.slice(medianIndex + 1);
+      node.right = BinarySearchTree();
+      rebuild(rightSplice, node.right);
+    }
+
+    if (medianIndex > 0) {
+      var leftSplice = spliced.slice(0, medianIndex);
+      node.left = BinarySearchTree();
+      rebuild(leftSplice, node.left);
+    }
+
+  };
+
+  if (array) {
+    rebuild(array, this);
+  }
+
+
+};
+
 BinarySearchTree.prototype.contains = function(value) {
   if (this.value === value) {
     return true;
