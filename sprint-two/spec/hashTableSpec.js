@@ -4,7 +4,7 @@ describe('hashTable', function() {
 
 
   beforeEach(function() {
-    hashTable = new HashTable();
+    hashTable = new HashTable(8);
   });
 
   it('should have methods named "insert", "remove", and "retrieve', function() {
